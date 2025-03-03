@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+/// [Enum] describes the position of the square.
+enum SquarePosition {
+  leftEdge,
+  rightEdge,
+  center;
+}
+
 /// [Widget] displaying the movement of the red square
 /// when pressing the buttons ("Left", "Right").
 class SquareAnimation extends StatefulWidget {
@@ -22,21 +29,17 @@ class SquareAnimationState extends State<SquareAnimation> {
   /// Current alignment of square.
   Alignment _alignment = Alignment.center;
 
-  /// Wether the animation in progress.
+  /// Whether the animation in progress.
   bool _animationInProgress = false;
 
-  /// Wether the square is at the right edge.
-  bool _isRightEdge = false;
-
-  /// Wether the square is at the left edge.
-  bool _isLeftEdge = false;
+  /// Position of the square.
+  SquarePosition _squarePosition = SquarePosition.center;
 
   /// Moves the square to the right edge.
   void _moveToTheRight() {
     setState(() {
       _animationInProgress = true;
-      _isRightEdge = true;
-      _isLeftEdge = false;
+      _squarePosition = SquarePosition.rightEdge;
       _alignment = Alignment.centerRight;
     });
   }
@@ -45,8 +48,7 @@ class SquareAnimationState extends State<SquareAnimation> {
   void _moveToTheLeft() {
     setState(() {
       _animationInProgress = true;
-      _isLeftEdge = true;
-      _isRightEdge = false;
+      _squarePosition = SquarePosition.leftEdge;
       _alignment = Alignment.centerLeft;
     });
   }
@@ -58,14 +60,14 @@ class SquareAnimationState extends State<SquareAnimation> {
     });
   }
 
-  /// Wether the left buttun is active state.
+  /// Whether the left button is active state.
   bool _isLeftButtonActive() {
-    return !_animationInProgress && !_isLeftEdge;
+    return !_animationInProgress && _squarePosition != SquarePosition.leftEdge;
   }
 
-  /// Wether the right buttun is active state.
+  /// Whether the right button is active state.
   bool _isRightButtonActive() {
-    return !_animationInProgress && !_isRightEdge;
+    return !_animationInProgress && _squarePosition != SquarePosition.rightEdge;
   }
 
   @override
